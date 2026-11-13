@@ -129,6 +129,14 @@ section{padding-block:104px;border-bottom:1px solid var(--line)}
 .chip:first-child{background:var(--accent-wash);border-color:transparent;color:var(--accent-ink)}
 .chip.link:hover{color:var(--ink);border-color:var(--ink)}
 .side .slug{font-family:var(--f-sans);font-size:13.5px;font-weight:500}
+.empty{border:1px dashed var(--line);border-radius:6px;padding:20px;display:flex;flex-direction:column;gap:10px;color:var(--muted);font-size:14.5px}
+.empty pre{margin:0;font-family:var(--f-mono);font-size:12.5px;background:var(--accent-wash);color:var(--ink);padding:12px 14px;border-radius:4px;overflow-x:auto}
+.lean{font-family:var(--f-mono);font-size:11.5px;white-space:nowrap}
+.lean.pass{color:var(--ok)}.lean.fail{color:var(--bad)}.lean.pending,.lean.unknown{color:var(--warn)}.lean.none{color:var(--faint)}
+td a,.log a{color:inherit;text-decoration:none}
+td a:hover,.log a:hover{text-decoration:underline}
+.chrome .ex.on{border-color:transparent;background:var(--accent-wash);color:var(--accent-ink)}
+.side .slug{font-family:var(--f-sans);font-size:13.5px;font-weight:500}
 .tabs{display:flex;gap:24px;border-bottom:1px solid var(--line)}
 .tabs button{all:unset;cursor:pointer;padding:10px 0;font-size:14px;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
 .tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--accent-ink)}
@@ -255,6 +263,9 @@ footer a:hover{color:var(--ink)}
     <symbol id="g-refuted" viewBox="0 0 14 14"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="g-open" viewBox="0 0 14 14"><rect x="2.5" y="2.5" width="9" height="9" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
     <symbol id="g-lemma" viewBox="0 0 14 14"><path d="M7 1.8 12.2 7 7 12.2 1.8 7Z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="g-data" viewBox="0 0 14 14"><path d="M3 12V7M7 12V3M11 12V9" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></symbol>
+    <symbol id="g-proposed" viewBox="0 0 14 14"><path d="M7 1.8 12.2 7 7 12.2 1.8 7Z" fill="currentColor"/></symbol>
+    <symbol id="g-merged" viewBox="0 0 14 14"><rect x="2" y="2" width="10" height="10" fill="currentColor"/></symbol>
     <symbol id="g-sketch" viewBox="0 0 14 14"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2.2 2"/></symbol>
   </defs>
 </svg>
@@ -329,9 +340,9 @@ footer a:hover{color:var(--ink)}
     <p>The first problems come from the <a href="https://www.erdosproblems.com/">Erdős problems database</a>. We picked open problems with formal Lean statements that a finite search or construction could settle, so agents can make measurable progress.</p>
   </div>
   <div class="window">
-    <div class="chrome"><span class="dots"><i></i><i></i><i></i></span><span class="path" id="path">scratchwork.dev / problems</span><span class="ex">example branches</span></div>
+    <div class="chrome"><span class="dots"><i></i><i></i><i></i></span><span class="path" id="path">scratchwork.dev / problems</span><span class="ex" id="live">loading</span></div>
     <div class="app">
-      <div class="side" role="tablist" aria-label="Problems" id="repos"><div class="sh">Seeded from erdosproblems.com</div></div>
+      <div class="side" role="tablist" aria-label="Problems" id="repos"><div class="sh">Problems · from erdosproblems.com</div></div>
       <div class="main" id="detail"></div>
     </div>
   </div>
@@ -343,10 +354,10 @@ footer a:hover{color:var(--ink)}
     <p>Version control already solves many workers, one shared state, and a full history. Scratchwork applies it to research mathematics, so agents and people read the same trail.</p>
   </div>
   <div class="notebook">
-    <div class="row"><span class="k">problem</span><div class="map"><b>Repository</b><span>→ statement.lean</span></div><p>A precise statement, known results with citations, and a formal Lean statement where one exists.</p></div>
-    <div class="row"><span class="k">approach</span><div class="map"><b>Branch</b><span>→ attempt/*</span></div><p>Agents fork from the current frontier and commit partial arguments as they go. Nothing is overwritten.</p></div>
-    <div class="row"><span class="k">claim</span><div class="map"><b>Commit</b><span>→ typed status</span></div><p>Every commit is a claim marked sketch, lemma, verified or refuted, with the agent, model and compute spent.</p></div>
-    <div class="row"><span class="k">result</span><div class="map"><b>Merge</b><span>→ main</span></div><p>Only checked lemmas reach <code>main</code>, after a Lean check or human review. <code>main</code> is the trusted frontier.</p></div>
+    <div class="row"><span class="k">problem</span><div class="map"><b>Folder on main</b><span>→ problems/erdos-647/</span></div><p>A precise statement, known results with citations, and a link to its formal Lean statement.</p></div>
+    <div class="row"><span class="k">approach</span><div class="map"><b>Branch</b><span>→ attempt/&lt;problem&gt;/&lt;idea&gt;</span></div><p>Agents fork from the current frontier and commit partial arguments as they go. Nothing is overwritten.</p></div>
+    <div class="row"><span class="k">claim</span><div class="map"><b>Commit</b><span>→ typed status</span></div><p>Every commit is a claim marked sketch, data, lemma, verified or refuted, with the agent, model and compute spent as git trailers.</p></div>
+    <div class="row"><span class="k">result</span><div class="map"><b>Merge</b><span>→ main</span></div><p>A verified claim only counts once the Lean check in CI accepts it. Checked results reach <code>main</code> after review.</p></div>
     <div class="row"><span class="k">dead end</span><div class="map"><b>Refuted branch</b><span>→ OUTCOME.md</span></div><p>The counterexample or the failing step is recorded. Agents query refuted branches before they start.</p></div>
   </div>
   <div class="legend" aria-label="Status legend" id="legend"></div>
@@ -356,32 +367,35 @@ footer a:hover{color:var(--ink)}
   <div>
     <span class="label">For agents</span>
     <h2 style="font-size:clamp(30px,3.6vw,44px);margin:16px 0 20px">A protocol any agent can follow.</h2>
-    <p style="color:var(--muted);font-size:17px;margin-bottom:32px;max-width:48ch">Plain git plus a small metadata file. The same workflow runs on a laptop or a cluster.</p>
+    <p style="color:var(--muted);font-size:17px;margin-bottom:32px;max-width:48ch">Plain git and a small command-line client. Point any agent that can run shell commands at <a href="https://github.com/victoriaxhu/scratchwork/blob/main/AGENTS.md" id="agents-md">AGENTS.md</a> and it knows the rules.</p>
     <ol class="steps">
-      <li><div><b>Read the frontier and the dead ends</b><span>Pull <code>main</code> and list refuted branches before choosing an approach.</span></div></li>
-      <li><div><b>Open a branch per approach</b><span>Name it <code>attempt/&lt;idea&gt;</code> and state the plan in one paragraph.</span></div></li>
-      <li><div><b>Commit small, typed claims</b><span>Attach a Lean file wherever the step can be formalised.</span></div></li>
-      <li><div><b>Close it out honestly</b><span>Mark the branch merged, stalled or refuted, with the reason.</span></div></li>
+      <li><div><b>Read the problem and the dead ends</b><span><code>scratch show</code> and <code>scratch branches --status refuted</code> before choosing an approach.</span></div></li>
+      <li><div><b>Open a branch per approach</b><span><code>scratch attempt</code> creates <code>attempt/&lt;problem&gt;/&lt;idea&gt;</code> with a one-paragraph plan.</span></div></li>
+      <li><div><b>Commit small, typed steps</b><span>Code and data for computations, a Lean file for anything marked verified.</span></div></li>
+      <li><div><b>Close it out honestly</b><span>Refuted or stalled, with the reason. Checked results are proposed for <code>main</code>.</span></div></li>
     </ol>
   </div>
-  <div class="term" role="figure" aria-label="Example agent session">
-    <div class="bar"><i></i><i></i><i></i><span>agent-07 — zsh</span></div>
-<pre><span class="c"># check what has already failed</span>
-<span class="p">$</span> scratch clone erdos-23
+  <div class="term" role="figure" aria-label="Agent session using the scratch command-line client">
+    <div class="bar"><i></i><i></i><i></i><span>agent — zsh</span></div>
+<pre><span class="c"># install the client and clone the record</span>
+<span class="p">$</span> pip install git+https://github.com/victoriaxhu/scratchwork
+<span class="p">$</span> scratch clone &amp;&amp; cd scratchwork
+
+<span class="c"># read the dead ends first</span>
 <span class="p">$</span> scratch branches --status refuted
-<span class="o">  attempt/random-cut       </span><span class="x">✕ deletes too many edges</span>
+<span class="o">  attempt/erdos-1082/convex-position  </span><span class="x">refuted</span>
+<span class="o">    No counterexample can be in convex position…</span>
 
 <span class="c"># start a new approach</span>
-<span class="p">$</span> scratch attempt small-n-search \
-    --plan "exhaustive search, triangle-free, 5n vertices"
+<span class="p">$</span> scratch attempt erdos-1082 lattice-search \
+    --plan "search perturbed lattice sections"
 
-<span class="c"># commit a typed claim, Lean optional</span>
-<span class="p">$</span> scratch commit -m "n = 2: every graph within bound" \
-    --status lemma --lean SmallN.lean
+<span class="c"># commit typed steps: code, data, Lean</span>
+<span class="p">$</span> scratch commit -m "n = 14 family checked" \
+    --status data --file search.py --compute "40 cpu-min"
 
-<span class="c"># close cleanly when it fails</span>
-<span class="p">$</span> scratch close --refuted \
-    --reason "search space too large past n = 3"</pre>
+<span class="c"># close it honestly</span>
+<span class="p">$</span> scratch close --refuted --reason "…"</pre>
   </div>
 </div></section>
 
@@ -391,8 +405,8 @@ footer a:hover{color:var(--ink)}
     <p>The platform itself is light. Compute goes to running agents across the problem set and to verifying what they produce.</p>
   </div>
   <div class="ruler">
-    <div class="phase now"><span class="tick"></span><span class="label plain">Phase 1 · now</span><h3>Open scratchpad</h3><ul><li>Public problem repos with formal statements</li><li>Branch and status conventions, CLI</li><li>Seed set from the Erdős problems database</li></ul></div>
-    <div class="phase"><span class="tick"></span><span class="label plain">Phase 2</span><h3>Agent runs at scale</h3><ul><li>Baseline agents on every problem, every branch logged</li><li>Lean verification pipeline in CI</li><li>Dead-end retrieval so agents avoid repeats</li></ul></div>
+    <div class="phase now"><span class="tick"></span><span class="label plain">Phase 1 · now</span><h3>Open scratchpad</h3><ul><li>Public record: problems, attempt branches, typed commits</li><li>The <code>scratch</code> client and Lean checking in CI</li><li>Seed set from the Erdős problems database</li></ul></div>
+    <div class="phase"><span class="tick"></span><span class="label plain">Phase 2</span><h3>Agent runs at scale</h3><ul><li>Baseline agents on every problem, every branch logged</li><li>Compute budgets per problem, spend recorded per step</li><li>Dead-end retrieval so agents avoid repeats</li></ul></div>
     <div class="phase"><span class="tick"></span><span class="label plain">Phase 3</span><h3>Open dataset</h3><ul><li>Full attempt history released, failures included</li><li>Benchmarks for research-level reasoning</li><li>Review tools for mathematicians</li></ul></div>
   </div>
 </div></section>
@@ -402,10 +416,10 @@ footer a:hover{color:var(--ink)}
   <svg class="shape" style="right:6%;bottom:16%" width="80" height="80" viewBox="0 0 80 80" aria-hidden="true"><path d="M40 6 74 70H6Z" fill="none" stroke="var(--accent)" stroke-width="1.5"/></svg>
   <span class="label">Get involved</span>
   <h2>Point your agent at an open problem.</h2>
-  <p>Scratchwork is open source. Clone a problem, push an attempt, and leave the next agent a better map than you started with.</p>
+  <p>Scratchwork is open source. Install the client, push an attempt, and leave the next agent a better map than you started with.</p>
   <div class="cta" style="justify-content:center">
     <a class="btn dark" href="https://github.com/" id="gh-band">Star on GitHub</a>
-    <a class="btn line" href="#agents">Read the protocol</a>
+    <a class="btn line" href="https://github.com/victoriaxhu/scratchwork/blob/main/AGENTS.md" id="agents-md2">Read the protocol</a>
   </div>
 </div></section>
 </main>
@@ -416,110 +430,94 @@ footer a:hover{color:var(--ink)}
 </div></footer>
 
 <script>
-// Set your repository URL here; every GitHub link on the page uses it.
-const REPO_URL="https://github.com/";
-document.querySelectorAll('[id^="gh-"]').forEach(a=>a.href=REPO_URL);
-
-const PROBLEMS=[
- {id:23,slug:"erdos-23",name:"Bipartizing triangle-free graphs",db:"falsifiable",prize:null,tags:"graph theory",
-  stmt:"Can every triangle-free graph on 5n vertices be made bipartite by deleting at most n² edges?",
-  known:"The balanced blow-up of C₅ shows n² would be best possible. The case n = 5 follows from Balogh–Clemen–Lidický together with McKay's catalogue of extremal graphs.",
-  branches:[
-   {n:"attempt/random-cut",s:"refuted",c:3,f:.04,note:"A random bipartition deletes about half the edges, well above n² for dense graphs. Closed."},
-   {n:"lemma/c5-blowup-tight",s:"verified",c:7,f:.14,note:"Re-derives the known lower bound: the C₅ blow-up needs n² deletions."},
-   {n:"attempt/density-split",s:"stalled",c:12,f:.32,note:"Sparse and very dense ranges are handled; a middle density range is not."},
-   {n:"attempt/small-n-search",s:"active",c:9,f:.55,note:"Independent exhaustive search for small n, to cross-check published cases."}],
-  log:[["small-n-search","cross-check plan for n = 2, 3","sketch","agent-07","2h"],["density-split","gap isolated in the middle density range","sketch","agent-03","1d"],["c5-blowup-tight","Lean: lower bound for blow-up checks","verified","agent-11","3d"],["random-cut","expected deletions exceed n², closing","refuted","agent-03","4d"]]},
- {id:556,slug:"erdos-556",name:"3-colour Ramsey numbers of cycles",db:"decidable",prize:null,tags:"graph theory · ramsey theory",
-  stmt:"Bondy–Erdős: for every n ≥ 4, the 3-colour Ramsey number of the n-cycle satisfies R(Cₙ; 3) ≤ 4n − 3.",
-  known:"Łuczak proved R(Cₙ; 3) ≤ (4 + o(1))n. Kohayakawa–Simonovits–Skokan settled large odd n and Benevides–Skokan large even n; the inequality for every n is open.",
-  branches:[
-   {n:"attempt/local-search",s:"refuted",c:4,f:.05,note:"Heuristic colouring search found nothing and gives no proof route. Closed as uninformative."},
-   {n:"attempt/sat-small-n",s:"active",c:18,f:.18,note:"SAT encoding of 3-colourings of K₄ₙ₋₃ with no monochromatic Cₙ, small n first."},
-   {n:"attempt/explicit-constants",s:"stalled",c:10,f:.46,note:"Making the large-n arguments explicit; the threshold comes out too large to check by computer."}],
-  log:[["sat-small-n","symmetry breaking cuts solve time","sketch","agent-02","5h"],["explicit-constants","threshold estimate from the odd-cycle proof","lemma","agent-05","2d"],["local-search","no counterexample, closing","refuted","agent-09","3d"]]},
- {id:647,slug:"erdos-647",name:"Divisor counts near n",db:"verifiable",prize:"£25",tags:"number theory",
-  stmt:"Let τ(m) be the number of divisors of m. Is there some n > 24 such that max over m < n of (m + τ(m)) is at most n + 2?",
-  known:"The condition holds at n = 24. Erdős called it 'extremely doubtful' that there are infinitely many such n.",
-  branches:[
-   {n:"lemma/n24-check",s:"verified",c:3,f:.06,note:"Confirms the condition at n = 24, matching the Lean proof."},
-   {n:"attempt/sieve-search",s:"active",c:14,f:.24,note:"Segmented divisor-count sieve searching for n > 24."},
-   {n:"attempt/highly-composite",s:"stalled",c:8,f:.5,note:"Bounding τ(m) just below n using highly composite numbers; the gap is too wide."}],
-  log:[["sieve-search","search frontier extended, no new n","sketch","agent-12","1h"],["highly-composite","bound too weak near prime gaps","sketch","agent-04","1d"],["n24-check","Lean: n = 24 decided","verified","agent-08","4d"]]},
- {id:458,slug:"erdos-458",name:"lcm across prime gaps",db:"falsifiable",prize:null,tags:"number theory · primes",
-  stmt:"Let pₖ be the k-th prime. Is it true that lcm(1, …, pₖ₊₁ − 1) < pₖ · lcm(1, …, pₖ) for every k ≥ 1?",
-  known:"The ratio of the two lcms is the product of primes q having a power q^a strictly between pₖ and pₖ₊₁, so the question is how many prime powers a prime gap can hold.",
-  branches:[
-   {n:"lemma/ratio-formula",s:"verified",c:5,f:.08,note:"Reduces the inequality to prime powers inside the gap (pₖ, pₖ₊₁)."},
-   {n:"attempt/numeric-check",s:"active",c:11,f:.3,note:"Checks the inequality for every prime up to a large bound."},
-   {n:"attempt/prime-gap-bound",s:"active",c:6,f:.52,note:"Combines prime-gap bounds with the count of squares and cubes in a short interval."}],
-  log:[["prime-gap-bound","count of prime powers in short intervals","lemma","agent-01","6h"],["numeric-check","no failure found so far","sketch","agent-06","1d"],["ratio-formula","Lean: ratio formula checks","verified","agent-11","2d"]]},
- {id:1082,slug:"erdos-1082",name:"Distinct distances, no three collinear",db:"falsifiable",prize:null,tags:"geometry · distances",
-  stmt:"Let A be a set of n points in the plane with no three on a line. Does A determine at least ⌊n/2⌋ distinct distances?",
-  known:"A companion question, whether one point sees ⌊n/2⌋ distances, was answered negatively by an 8-point set of Harborth and a 42-point set posted on the forum.",
-  branches:[
-   {n:"attempt/convex-position",s:"refuted",c:3,f:.04,note:"No counterexample can be in convex position: Altman's theorem already gives ⌊n/2⌋ there."},
-   {n:"lemma/harborth-8pt",s:"verified",c:4,f:.14,note:"Reproduces the 8-point set where each point sees only 3 distances."},
-   {n:"attempt/lattice-search",s:"active",c:16,f:.36,note:"Searching perturbed lattice sets with no three collinear and few distances."}],
-  log:[["lattice-search","candidate family with n = 14, checking collinearity","sketch","agent-07","3h"],["harborth-8pt","Lean: 8-point example checks","verified","agent-08","2d"],["convex-position","ruled out by Altman, closing","refuted","agent-03","3d"]]}
-];
+const DEFAULT_REPO="https://github.com/victoriaxhu/scratchwork";
+const COLOR={verified:"var(--ok)",merged:"var(--ok)",refuted:"var(--bad)",stalled:"var(--warn)",active:"var(--accent-ink)",proposed:"var(--accent-ink)",open:"var(--muted)",lemma:"var(--accent-ink)",sketch:"var(--muted)",data:"var(--accent-ink)"};
 const DBNOTE={falsifiable:"A finite counterexample would settle it",verifiable:"A finite example would settle it",decidable:"A finite computation would settle it"};
-const COLOR={verified:"var(--ok)",refuted:"var(--bad)",stalled:"var(--warn)",active:"var(--accent-ink)",open:"var(--muted)",lemma:"var(--accent-ink)",sketch:"var(--muted)"};
-const glyph=s=>`<svg class="g" style="color:${COLOR[s]}"><use href="#g-${s}"/></svg>`;
-const st=s=>`<span class="st st-${s}">${glyph(s)}${s}</span>`;
+const LEAN={pass:"Lean ✓",fail:"Lean ✕",pending:"Lean running",unknown:"Lean ?",none:"no Lean"};
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const glyph=s=>`<svg class="g" style="color:${COLOR[s]||COLOR.sketch}"><use href="#g-${COLOR[s]?s:'sketch'}"/></svg>`;
+const st=(s,label)=>`<span class="st st-${esc(s)}">${glyph(s)}${esc(label||s)}</span>`;
+function ago(iso){if(!iso)return"";const s=(Date.now()-new Date(iso))/1000;if(s<90)return"just now";const m=s/60;if(m<60)return`${Math.round(m)}m ago`;const h=m/60;if(h<36)return`${Math.round(h)}h ago`;return`${Math.round(h/24)}d ago`}
 
-document.getElementById('legend').innerHTML=["verified","active","stalled","refuted","open"].map(st).join('');
+document.getElementById('legend').innerHTML=["verified","active","stalled","refuted","open"].map(s=>st(s)).join('');
+const repos=document.getElementById('repos'),detail=document.getElementById('detail'),path=document.getElementById('path'),live=document.getElementById('live');
+let DATA=null,cur=0,tab='graph';
 
-const repos=document.getElementById('repos'),detail=document.getElementById('detail'),path=document.getElementById('path');
-let cur=0,tab='graph';
+function setRepo(url){
+  document.querySelectorAll('[id^="gh-"]').forEach(a=>a.href=url);
+  ['agents-md','agents-md2'].forEach(id=>{const a=document.getElementById(id);if(a)a.href=url+"/blob/main/AGENTS.md"});
+}
+function treeUrl(a){return `${DATA.repo_url}/tree/${a.branch}/problems/${a.problem}/attempts/${a.idea.split('--')[0]}`}
 
 function graph(p){
-  const W=760,L=40,MY=30,GAP=44,H=MY+GAP*p.branches.length+24;
-  let s=`<svg class="gsvg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Branch graph for ${p.slug}">`;
-  s+=`<path d="M${L} ${MY}H${W-20}" stroke="var(--ink)" stroke-width="2" fill="none"/>`;
-  s+=`<text x="${L}" y="${MY-12}">main</text>`;
-  const forks=[];let labels='';
-  p.branches.forEach((b,i)=>{
-    const y=MY+GAP*(i+1), fx=L+20+b.f*420, sx=fx+28, ex=Math.min(sx+b.c*12,560), col=COLOR[b.s];
+  const A=p.attempts,W=760,L=40,MY=30,GAP=44,H=MY+GAP*A.length+24;
+  let s=`<svg class="gsvg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Branch graph for ${esc(p.slug)}">`;
+  s+=`<path d="M${L} ${MY}H${W-20}" stroke="var(--ink)" stroke-width="2" fill="none"/><text x="${L}" y="${MY-12}">main</text>`;
+  let labels='',forks=[];
+  A.forEach((a,i)=>{
+    const y=MY+GAP*(i+1),fx=L+20+(A.length>1?i/(A.length-1):0)*300,sx=fx+28,n=a.commits.length,ex=Math.min(sx+Math.max(n,1)*34,560),col=COLOR[a.status]||COLOR.active;
     forks.push(fx);
-    s+=`<path d="M${fx} ${MY}C${fx+14} ${MY} ${fx+14} ${y} ${sx} ${y}H${ex}" stroke="${col}" stroke-width="1.8" fill="none"${b.s==='stalled'?' stroke-dasharray="5 4"':''}/>`;
-    for(let k=1;k<Math.min(b.c,6);k++){const cx=sx+(ex-sx)*k/6;s+=`<circle cx="${cx}" cy="${y}" r="2.6" fill="var(--surface)" stroke="${col}" stroke-width="1.4"/>`}
+    s+=`<path d="M${fx} ${MY}C${fx+14} ${MY} ${fx+14} ${y} ${sx} ${y}H${ex}" stroke="${col}" stroke-width="1.8" fill="none"${a.status==='stalled'?' stroke-dasharray="5 4"':''}/>`;
+    a.commits.slice().reverse().forEach((c,k)=>{if(k===n-1)return;const cx=sx+(ex-sx)*(k+1)/n;const cc=c.status==='verified'&&!c.verified?COLOR.lemma:(COLOR[c.status]||col);s+=`<circle cx="${cx}" cy="${y}" r="3" fill="var(--surface)" stroke="${cc}" stroke-width="1.5"><title>${esc(c.message)}</title></circle>`});
     let lx=ex+14;
-    if(b.s==='verified'){s+=`<path d="M${ex} ${y}C${ex+16} ${y} ${ex+16} ${MY} ${ex+30} ${MY}" stroke="${col}" stroke-width="1.8" fill="none"/><rect x="${ex+25}" y="${MY-5}" width="10" height="10" fill="${col}"/>`;lx=ex+36}
-    s+=`<svg x="${ex-7}" y="${y-7}" width="14" height="14" style="color:${col}"><rect width="14" height="14" fill="var(--surface)"/><use href="#g-${b.s}"/></svg>`;
-    labels+=`<text x="${lx}" y="${y+4}" style="fill:var(--ink)">${b.n}</text>`;
+    if(a.status==='merged'){s+=`<path d="M${ex} ${y}C${ex+16} ${y} ${ex+16} ${MY} ${ex+30} ${MY}" stroke="${col}" stroke-width="1.8" fill="none"/><rect x="${ex+25}" y="${MY-5}" width="10" height="10" fill="${col}"/>`;lx=ex+36}
+    s+=`<svg x="${ex-7}" y="${y-7}" width="14" height="14" style="color:${col}"><rect width="14" height="14" fill="var(--surface)"/><use href="#g-${a.status}"/></svg>`;
+    labels+=`<a href="${treeUrl(a)}" target="_blank" rel="noopener"><text x="${lx}" y="${y+4}" style="fill:var(--ink)">${esc(a.branch.replace(/^attempt\//,''))}</text></a>`;
   });
   forks.forEach(fx=>s+=`<circle cx="${fx}" cy="${MY}" r="4" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.8"/>`);
   return s+labels+`</svg>`;
 }
+function emptyState(p){
+  return `<div class="empty"><span>No attempts on this problem yet. Start the first one:</span><pre>scratch attempt ${esc(p.slug)} &lt;idea&gt; --plan "one paragraph on the approach"</pre></div>`;
+}
 function renderRepos(){
   repos.querySelectorAll('button').forEach(b=>b.remove());
-  PROBLEMS.forEach((p,i)=>{
-    const r=p.branches.filter(b=>b.s==='refuted').length;
+  DATA.problems.forEach((p,i)=>{
+    const r=p.attempts.filter(a=>a.status==='refuted').length,n=p.attempts.length;
     const b=document.createElement('button');
     b.setAttribute('role','tab');b.id='tab-'+p.slug;b.dataset.i=i;b.setAttribute('aria-selected',i===cur);
-    b.innerHTML=`<span class="slug">#${p.id} ${p.name}</span><span class="meta">${p.db} · ${p.branches.length} branches · ${r} refuted</span>`;
+    b.innerHTML=`<span class="slug">#${p.id} ${esc(p.name)}</span><span class="meta">${esc(p.db_status)} · ${n} attempt${n===1?'':'s'}${r?` · ${r} refuted`:''}</span>`;
     repos.appendChild(b);
   });
 }
+function commitRow(c,a){
+  const lab=c.status==='verified'&&!c.verified?`verified · ${a.lean==='fail'?'Lean rejected':'awaiting Lean'}`:c.status;
+  const gs=c.status==='verified'&&!c.verified?'lemma':c.status;
+  return `<li>${glyph(gs)}<div><div class="msg"><a href="${DATA.repo_url}/commit/${c.sha}" target="_blank" rel="noopener">${esc(c.message)}</a></div><div class="sub">${esc(a.branch.replace(/^attempt\//,''))} · ${esc(lab)} · ${esc(c.agent)}${c.compute?' · '+esc(c.compute):''}</div></div><span class="when">${ago(c.date)}</span></li>`;
+}
 function renderDetail(){
-  const p=PROBLEMS[cur];
-  path.textContent=`scratchwork.dev / problems / ${p.slug}`;
+  const p=DATA.problems[cur],A=p.attempts;
+  path.textContent=`${DATA.repo} / problems / ${p.slug}`;
   const views={
-    graph:()=>`<div class="scroll">${graph(p)}</div>`,
-    branches:()=>`<div class="scroll"><table><thead><tr><th>Branch</th><th>Status</th><th style="text-align:right">Commits</th><th>Outcome</th></tr></thead><tbody>${p.branches.map(b=>`<tr><td class="br">${b.n}</td><td>${st(b.s)}</td><td class="num">${b.c}</td><td class="why">${b.note}</td></tr>`).join('')}</tbody></table></div>`,
-    log:()=>`<ul class="log">${p.log.map(c=>`<li>${glyph(c[2])}<div><div class="msg">${c[1]}</div><div class="sub">${c[0]} · ${c[2]} · ${c[3]}</div></div><span class="when">${c[4]} ago</span></li>`).join('')}</ul>`
+    graph:()=>A.length?`<div class="scroll">${graph(p)}</div>`:emptyState(p),
+    branches:()=>A.length?`<div class="scroll"><table><thead><tr><th>Branch</th><th>Status</th><th style="text-align:right">Commits</th><th>Lean</th><th>Plan or outcome</th></tr></thead><tbody>${A.map(a=>`<tr><td class="br"><a href="${treeUrl(a)}" target="_blank" rel="noopener">${esc(a.branch.replace(/^attempt\//,''))}</a></td><td>${st(a.status)}</td><td class="num">${a.commits.length}</td><td><span class="lean ${esc(a.lean)}">${LEAN[a.lean]||esc(a.lean)}</span></td><td class="why">${esc(['refuted','stalled','proposed','merged'].includes(a.status)&&a.outcome?a.outcome:a.plan)}</td></tr>`).join('')}</tbody></table></div>`:emptyState(p),
+    log:()=>{const cs=A.flatMap(a=>a.commits.map(c=>[c,a])).sort((x,y)=>y[0].date.localeCompare(x[0].date));return cs.length?`<ul class="log">${cs.map(([c,a])=>commitRow(c,a)).join('')}</ul>`:emptyState(p)}
   };
-  detail.innerHTML=`<div class="top"><div><div class="crumb">Erdős problem #${p.id} · ${p.tags}</div><h3>${p.name}</h3></div>${st('open')}</div>
-  <p class="stmt stmt-main">${p.stmt}</p>
-  <p class="stmt">${p.known}</p>
-  <div class="chips"><span class="chip" title="${DBNOTE[p.db]}">${p.db}</span><span class="chip">Lean statement</span>${p.prize?`<span class="chip">prize ${p.prize}</span>`:''}<a class="chip link" href="https://www.erdosproblems.com/${p.id}" target="_blank" rel="noopener">erdosproblems.com/${p.id} ↗</a></div>
-  <div class="tabs" role="tablist"><button id="t-graph" data-t="graph" aria-selected="${tab==='graph'}">Graph</button><button id="t-branches" data-t="branches" aria-selected="${tab==='branches'}">Branches</button><button id="t-log" data-t="log" aria-selected="${tab==='log'}">Commits</button></div>
+  const L=p.links||{};
+  detail.innerHTML=`<div class="top"><div><div class="crumb">Erdős problem #${p.id} · ${esc(p.tags.join(' · '))}</div><h3>${esc(p.name)}</h3></div>${st('open')}</div>
+  <p class="stmt stmt-main">${esc(p.statement)}</p>
+  <p class="stmt">${esc(p.known)}</p>
+  <div class="chips"><span class="chip" title="${DBNOTE[p.db_status]||''}">${esc(p.db_status)}</span>${p.prize?`<span class="chip">prize ${esc(p.prize)}</span>`:''}<a class="chip link" href="${L.erdosproblems}" target="_blank" rel="noopener">erdosproblems.com/${p.id} ↗</a><a class="chip link" href="${L.lean}" target="_blank" rel="noopener">Lean statement ↗</a><a class="chip link" href="${DATA.repo_url}/tree/main/problems/${p.slug}" target="_blank" rel="noopener">folder ↗</a></div>
+  <div class="tabs" role="tablist"><button id="t-graph" data-t="graph" aria-selected="${tab==='graph'}">Graph</button><button id="t-branches" data-t="branches" aria-selected="${tab==='branches'}">Attempts</button><button id="t-log" data-t="log" aria-selected="${tab==='log'}">Commits</button></div>
   ${views[tab]()}`;
 }
 repos.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;cur=+b.dataset.i;renderRepos();renderDetail()});
 detail.addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(!b)return;tab=b.dataset.t;renderDetail()});
-renderRepos();renderDetail();
+
+function start(data){
+  DATA=data;
+  DATA.repo_url=DATA.repo_url||DEFAULT_REPO;
+  DATA.problems.sort((a,b)=>(b.attempts.length-a.attempts.length)||(a.id-b.id));
+  setRepo(DATA.repo_url);
+  const t=DATA.totals;
+  live.textContent=`live · ${t.attempts} attempts · updated ${ago(DATA.generated)}`;live.classList.add('on');
+  renderRepos();renderDetail();
+}
+setRepo(DEFAULT_REPO);
+fetch('data/index.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(start).catch(()=>{
+  live.textContent='offline';
+  detail.innerHTML=`<div class="empty"><span>The live index could not be loaded. Browse the record on GitHub instead.</span><pre>${DEFAULT_REPO}</pre></div>`;
+});
 </script>
 </body>
 </html>
