@@ -233,7 +233,8 @@ def cmd_problems(args) -> None:
         print(json.dumps(rows, ensure_ascii=False, indent=2))
         return
     for r in rows:
-        print(f"{r['slug']:<12} {r['db_status']:<12} {r['attempts']} attempts, {r['refuted']} refuted   {r['name']}")
+        n = r["attempts"]
+        print(f"{r['slug']:<12} {r['db_status']:<12} {n} attempt{'' if n == 1 else 's'}, {r['refuted']} refuted   {r['name']}")
 
 
 def find_problem(root: Path, slug: str) -> dict:
