@@ -1,0 +1,19 @@
+{
+  "id": 23,
+  "slug": "erdos-23",
+  "name": "Bipartizing triangle-free graphs",
+  "tags": [
+    "graph theory"
+  ],
+  "db_status": "falsifiable",
+  "prize": null,
+  "statement": "Can every triangle-free graph on 5n vertices be made bipartite by deleting at most n² edges?",
+  "known": "The balanced blow-up of C₅ shows that n² would be best possible. The case n = 5 follows from Balogh–Clemen–Lidický together with McKay's catalogue of extremal graphs.",
+  "links": {
+    "erdosproblems": "https://www.erdosproblems.com/23",
+    "lean": "https://github.com/google-deepmind/formal-conjectures/blob/main/FormalConjectures/ErdosProblems/23.lean",
+    "oeis": [
+      "https://oeis.org/A389646"
+    ]
+  }
+}

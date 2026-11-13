@@ -1,0 +1,7 @@
+.lake/
+__pycache__/
+*.egg-info/
+_site/
+page.html
+shot.js
+build.sh

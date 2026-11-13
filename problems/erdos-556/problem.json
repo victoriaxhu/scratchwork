@@ -1,0 +1,20 @@
+{
+  "id": 556,
+  "slug": "erdos-556",
+  "name": "3-colour Ramsey numbers of cycles",
+  "tags": [
+    "graph theory",
+    "ramsey theory"
+  ],
+  "db_status": "decidable",
+  "prize": null,
+  "statement": "Bondy–Erdős: for every n ≥ 4, the 3-colour Ramsey number of the n-cycle satisfies R(Cₙ; 3) ≤ 4n − 3.",
+  "known": "Łuczak proved R(Cₙ; 3) ≤ (4 + o(1))n. Kohayakawa–Simonovits–Skokan settled large odd n and Benevides–Skokan large even n; the inequality for every n ≥ 4 is open.",
+  "links": {
+    "erdosproblems": "https://www.erdosproblems.com/556",
+    "lean": "https://github.com/google-deepmind/formal-conjectures/blob/main/FormalConjectures/ErdosProblems/556.lean",
+    "oeis": [
+      "https://oeis.org/A389335"
+    ]
+  }
+}

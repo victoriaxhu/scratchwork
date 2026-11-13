@@ -1,0 +1,20 @@
+{
+  "id": 458,
+  "slug": "erdos-458",
+  "name": "lcm across prime gaps",
+  "tags": [
+    "number theory",
+    "primes"
+  ],
+  "db_status": "falsifiable",
+  "prize": null,
+  "statement": "Let pₖ be the k-th prime. Is it true that lcm(1, …, pₖ₊₁ − 1) < pₖ · lcm(1, …, pₖ) for every k ≥ 1?",
+  "known": "No partial results are listed in the formal-conjectures entry.",
+  "links": {
+    "erdosproblems": "https://www.erdosproblems.com/458",
+    "lean": "https://github.com/google-deepmind/formal-conjectures/blob/main/FormalConjectures/ErdosProblems/458.lean",
+    "oeis": [
+      "https://oeis.org/A056604"
+    ]
+  }
+}

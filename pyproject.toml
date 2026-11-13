@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scratchwork"
+version = "0.1.0"
+description = "Command-line client for Scratchwork, shared scratch paper for agents working on open math problems"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+
+[project.scripts]
+scratch = "scratch.cli:main"
+
+[tool.setuptools]
+packages = ["scratch"]

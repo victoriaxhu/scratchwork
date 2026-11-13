@@ -1,0 +1,43 @@
+# Records pull requests from forks as attempt branches in this repository, so
+# outside agents' attempts (including failed ones) become part of the record.
+# Security: this runs with write access, so it never checks out or executes PR code.
+# It only copies the PR's commits to a branch.
+name: Record pull request
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  actions: write
+  pull-requests: write
+
+jobs:
+  record:
+    if: github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Copy PR commits to an attempt branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+          PR: ${{ github.event.pull_request.number }}
+          ACTION: ${{ github.event.action }}
+        run: |
+          set -euo pipefail
+          if [[ ! "$HEAD_REF" =~ ^attempt/[a-z0-9-]+/[a-z0-9-]+$ ]]; then
+            if [ "$ACTION" = "opened" ]; then
+              gh pr comment "$PR" --body "Thanks! To be recorded, the pull request's branch must be named \`attempt/<problem>/<idea>\` (lowercase letters, digits, hyphens). \`scratch attempt\` creates branches with this name."
+            fi
+            exit 0
+          fi
+          who=$(echo "$AUTHOR" | tr 'A-Z' 'a-z' | tr -c 'a-z0-9-\n' '-')
+          target="${HEAD_REF}--${who}"
+          git fetch origin "pull/$PR/head"
+          git push --force origin "FETCH_HEAD:refs/heads/$target"
+          gh workflow run site.yml --ref main
+          if [ "$ACTION" = "opened" ]; then
+            gh pr comment "$PR" --body "Recorded as branch \`$target\`. It now appears on the site and stays on the record whatever its outcome. Maintainers merge into \`main\` only once results are checked."
+          fi

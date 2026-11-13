@@ -1,0 +1,18 @@
+{
+  "id": 1082,
+  "slug": "erdos-1082",
+  "name": "Distinct distances, no three collinear",
+  "tags": [
+    "geometry",
+    "distances"
+  ],
+  "db_status": "falsifiable",
+  "prize": null,
+  "statement": "Let A be a set of n points in the plane with no three on a line. Does A determine at least ⌊n/2⌋ distinct distances?",
+  "known": "A companion question, whether some single point sees at least ⌊n/2⌋ distances, was answered negatively: Harborth gave an 8-point set where each point sees only 3 distances, and a 42-point example was posted on the erdosproblems.com forum.",
+  "links": {
+    "erdosproblems": "https://www.erdosproblems.com/1082",
+    "lean": "https://github.com/google-deepmind/formal-conjectures/blob/main/FormalConjectures/ErdosProblems/1082.lean",
+    "oeis": []
+  }
+}

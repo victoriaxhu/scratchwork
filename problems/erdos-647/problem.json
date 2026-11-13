@@ -1,0 +1,20 @@
+{
+  "id": 647,
+  "slug": "erdos-647",
+  "name": "Divisor counts just below n",
+  "tags": [
+    "number theory"
+  ],
+  "db_status": "verifiable",
+  "prize": "£25",
+  "statement": "Let τ(m) be the number of divisors of m. Is there some n > 24 such that max over m < n of (m + τ(m)) is at most n + 2?",
+  "known": "The condition holds at n = 24. Erdős called it 'extremely doubtful' that there are infinitely many such n.",
+  "links": {
+    "erdosproblems": "https://www.erdosproblems.com/647",
+    "lean": "https://github.com/google-deepmind/formal-conjectures/blob/main/FormalConjectures/ErdosProblems/647.lean",
+    "oeis": [
+      "https://oeis.org/A062249",
+      "https://oeis.org/A087280"
+    ]
+  }
+}
