@@ -1,0 +1,11 @@
+reduction matches exact lcm for all 429 gaps below 3000
+X = 1.000e+14: 670121 prime powers, 670116 gaps contain at least one
+gaps containing two or more prime powers: 5
+  (7, 11): [8, 9]  product of bases 6  ratio to p_k 0.857
+  (23, 29): [27, 25]  product of bases 15  ratio to p_k 0.652
+  (113, 127): [125, 121]  product of bases 55  ratio to p_k 0.487
+  (2179, 2203): [2187, 2197]  product of bases 39  ratio to p_k 0.0179
+  (32749, 32771): [32768, 32761]  product of bases 362  ratio to p_k 0.0111
+largest ratio product/p_k: 0.8571 at p_k = 7
+failures of the inequality: none
+elapsed: 95.5 s
