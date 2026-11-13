@@ -116,6 +116,14 @@ def write_outcome(path: Path, status: str, reason: str) -> None:
     path.write_text(f"---\nstatus: {status}\nupdated: {now_iso()}\n---\n# Outcome\n\n{reason.strip()}\n")
 
 
+def headline(text: str, limit: int = 72) -> str:
+    """First sentence of text, shortened at a word boundary to fit a commit subject."""
+    s = re.split(r"(?<=[.!?])\s", text.strip(), maxsplit=1)[0].rstrip(".")
+    if len(s) <= limit:
+        return s
+    return s[:limit - 1].rsplit(" ", 1)[0] + "…"
+
+
 def first_paragraph(md: str | None) -> str:
     if not md:
         return ""
@@ -350,14 +358,14 @@ def cmd_close(args) -> None:
     status = "refuted" if args.refuted else "stalled" if args.stalled else "active"
     write_outcome(d / "OUTCOME.md", status, args.reason)
     verb = {"refuted": "Close as refuted", "stalled": "Mark stalled", "active": "Reopen"}[status]
-    do_commit(root, f"{verb}: {args.reason.splitlines()[0][:72]}", "refuted" if status == "refuted" else "sketch", args, [d])
+    do_commit(root, f"{verb}: {headline(args.reason, 72 - len(verb) - 2)}", "refuted" if status == "refuted" else "sketch", args, [d])
 
 
 def cmd_propose(args) -> None:
     root = repo_root()
     problem, idea, d = require_attempt_branch(root)
     write_outcome(d / "OUTCOME.md", "proposed", args.summary)
-    do_commit(root, f"Propose for main: {args.summary.splitlines()[0][:60]}", "lemma", args, [d])
+    do_commit(root, f"Propose for main: {headline(args.summary, 53)}", "lemma", args, [d])
     if not shutil.which("gh"):
         print("Install the GitHub CLI (gh) to open the pull request, or open it on github.com.")
         return
