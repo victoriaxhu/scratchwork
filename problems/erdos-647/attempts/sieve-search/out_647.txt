@@ -1,0 +1,4 @@
+N = 100000000
+n <= N satisfying the condition: [2, 3, 4, 5, 6, 8, 10, 12, 24]
+largest: 24; any above 24: False
+elapsed: 7.2 s
